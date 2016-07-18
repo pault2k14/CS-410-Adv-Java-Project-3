@@ -2,6 +2,11 @@ package edu.pdx.cs410J.pbt;
 
 import edu.pdx.cs410J.AbstractAppointment;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Appointment class allows for the creation of new appointments, and
  * the getting of the beginning time, end time, and description of
@@ -10,8 +15,8 @@ import edu.pdx.cs410J.AbstractAppointment;
 
 public class Appointment extends AbstractAppointment {
 
-    private String beginTime;
-    private String endTime;
+    private Date beginTime;
+    private Date endTime;
     private String description;
 
     /**
@@ -25,18 +30,55 @@ public class Appointment extends AbstractAppointment {
 
     public Appointment(String newDescription, String newBeginTime, String newEndTime) {
 
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm aa");
+        dateFormat.setLenient(false);
+
+        // Attempt to parse the begin date and time to ensure that they
+        // are valid dates and times.
+        try {
+            this.beginTime = dateFormat.parse(newBeginTime);
+        }
+        catch (ParseException e) {
+            System.err.println("Begin date and time format is incorrect.");
+            System.exit(0);
+        }
+
+        // Attempt to parse the begin date and time to ensure that they
+        // are valid dates and times.
+        try {
+            this.endTime = dateFormat.parse(newEndTime);
+        }
+        catch (ParseException e) {
+            System.err.println("End date and time format is incorrect.");
+            System.exit(0);
+        }
+
         this.description = newDescription;
-        this.beginTime = newBeginTime;
-        this.endTime = newEndTime;
+
     }
 
+    @Override
+    public Date getBeginTime() {
+        return null;
+    }
+
+    @Override
+    public Date getEndTime() {
+        return null;
+    }
     /**
      * Returns the beginTime field of the appointment class object.
      * @return - Returns a string representing the beginning time of an appointment.
      */
     @Override
     public String getBeginTimeString() {
-        return this.beginTime;
+        DateFormat dateFormatter;
+        dateFormatter = DateFormat.getDateInstance(DateFormat.SHORT);
+        String shortBeginTime = dateFormatter.format(this.beginTime);
+
+        shortBeginTime += " " + beginTime.getHours() + ":" + beginTime.getMinutes();
+
+        return shortBeginTime;
     }
 
     /**
@@ -45,7 +87,13 @@ public class Appointment extends AbstractAppointment {
      */
     @Override
     public String getEndTimeString() {
-        return this.endTime;
+        DateFormat dateFormatter;
+        dateFormatter = DateFormat.getDateInstance(DateFormat.SHORT);
+        String shortEndTime = dateFormatter.format(this.endTime);
+
+        shortEndTime += " " + endTime.getHours() + ":" + endTime.getMinutes();
+
+        return shortEndTime;
     }
 
     /**

@@ -36,6 +36,13 @@ public class Project2 {
      */
   public static void main(String[] args) {
 
+
+      /**
+       * Need to change time format to M(M)/d(d)/yyyy H(H):mm am|pm
+       */
+
+
+
       Class c = AbstractAppointmentBook.class;  // Refer to one of Dave's classes so that we can be sure it is on the classpath
 
       AppointmentBook appointmentBook = null;
@@ -45,7 +52,7 @@ public class Project2 {
       String appointmentBookFileName = null;
       Date beginDate = null;
       Date endDate = null;
-      int expectedArgs = 6;
+      int expectedArgs = 8;
       int firstAppointmentArg = 0;
       boolean printAppointment = false;
 
@@ -132,8 +139,8 @@ public class Project2 {
 
       String newOwner = args[firstAppointmentArg + 0];
       String newDescription = args[firstAppointmentArg + 1];
-      String stringBeginDate = args[firstAppointmentArg + 2] + " " + args[firstAppointmentArg + 3];
-      String stringEndDate = args[firstAppointmentArg + 4] + " " + args[firstAppointmentArg + 5];
+      String stringBeginDate = args[firstAppointmentArg + 2] + " " + args[firstAppointmentArg + 3] + " " + args[firstAppointmentArg + 4];
+      String stringEndDate = args[firstAppointmentArg + 5] + " " + args[firstAppointmentArg + 6] + " " + args[firstAppointmentArg + 7];
 
       // Check to make sure the owner field is not blank.
       if(newOwner.length() == 0) {
@@ -159,14 +166,26 @@ public class Project2 {
           System.exit(0);
       }
 
+      // Check to make sure the begin time am/pm is correct.
+      if(!args[firstAppointmentArg + 4].matches("(am|pm)")) {
+          System.err.println("Begin time is incorrectly formatted!");
+          System.exit(0);
+      }
+
       // Check to make sure the end date format is correct.
-      if(!args[firstAppointmentArg + 4].matches("\\d\\d?/\\d\\d?/\\d\\d\\d\\d")) {
+      if(!args[firstAppointmentArg + 5].matches("\\d\\d?/\\d\\d?/\\d\\d\\d\\d")) {
           System.err.println("End date is incorrectly formatted!");
           System.exit(0);
       }
 
       // Check to make sure the end time format is correct.
-      if(!args[firstAppointmentArg + 5].matches("\\d\\d?:\\d\\d")) {
+      if(!args[firstAppointmentArg + 6].matches("\\d\\d?:\\d\\d")) {
+          System.err.println("End time is incorrectly formatted!");
+          System.exit(0);
+      }
+
+      // Check to make sure the end time am/pm is correct.
+      if(!args[firstAppointmentArg + 7].matches("(am|pm)")) {
           System.err.println("End time is incorrectly formatted!");
           System.exit(0);
       }
@@ -202,7 +221,7 @@ public class Project2 {
       // Check if the owner of the specified appointment book
       // file is the same as the owner of the appointment specified
       // on the command line.
-      if(appointment != null && !appointmentBook.getOwnerName().equals(newOwner)) {
+      if(appointmentBook != null && !appointmentBook.getOwnerName().equals(newOwner)) {
           System.err.println("Specified owner name and appointment book owner name do not match!");
           System.exit(0);
       }
@@ -214,7 +233,7 @@ public class Project2 {
           appointmentBook = new AppointmentBook(newOwner);
       }
 
-      appointment = new Appointment(newDescription, beginDate.toString(), endDate.toString());
+      appointment = new Appointment(newDescription, stringBeginDate, stringEndDate);
       appointmentBook.addAppointment(appointment);
 
       if(printAppointment) {
