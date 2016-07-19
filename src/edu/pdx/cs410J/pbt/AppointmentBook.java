@@ -50,6 +50,6 @@ public class AppointmentBook extends AbstractAppointmentBook {
      */
     public void addAppointment(AbstractAppointment var1) {
         this.appointments.add((Appointment) var1);
-        Collections.sort(appointments);
+        Collections.sort(this.appointments);
     }
 }

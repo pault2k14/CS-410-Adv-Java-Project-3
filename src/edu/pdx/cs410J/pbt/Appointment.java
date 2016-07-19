@@ -30,6 +30,10 @@ public class Appointment extends AbstractAppointment implements Comparable<Appoi
 
     public Appointment(String newDescription, String newBeginTime, String newEndTime) {
 
+        // PROBLEMS BECAUSE
+        // NOT USING Dateformat.SHORT
+        // with getInstance() and getTimeInstance()
+
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy h:mm a");
         dateFormat.setLenient(false);
 
@@ -70,7 +74,7 @@ public class Appointment extends AbstractAppointment implements Comparable<Appoi
             return BEFORE;
         }
 
-        if(this.beginTime.before(appointment.beginTime)) {
+        if(this.beginTime.after(appointment.beginTime)) {
             return AFTER;
         }
 
@@ -120,6 +124,10 @@ public class Appointment extends AbstractAppointment implements Comparable<Appoi
     @Override
     public String getBeginTimeString() {
 
+        // PROBLEMS BECAUSE
+        // NOT USING Dateformat.SHORT
+        // with getInstance() and getTimeInstance()
+
         String twelveHourBeginTime = null;
 
         SimpleDateFormat twelveHourDateFormat = new SimpleDateFormat("MM/dd/yy h:mm a");
@@ -136,6 +144,11 @@ public class Appointment extends AbstractAppointment implements Comparable<Appoi
      */
     @Override
     public String getEndTimeString() {
+
+        // PROBLEMS BECAUSE
+        // NOT USING Dateformat.SHORT
+        // with getInstance() and getTimeInstance()
+
         String twelveHourEndTime = null;
 
         SimpleDateFormat twelveHourDateFormat = new SimpleDateFormat("MM/dd/yy h:mm a");
