@@ -190,7 +190,7 @@ public class Project2 {
           System.exit(0);
       }
 
-      SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm");
+      SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
       dateFormat.setLenient(false);
 
       // Attempt to parse the begin date and time to ensure that they
@@ -199,7 +199,7 @@ public class Project2 {
           beginDate = dateFormat.parse(stringBeginDate);
       }
       catch (ParseException e) {
-          System.err.println("Begin date and time format is incorrect.");
+          System.err.println("In project2 Begin date and time format is incorrect.");
           System.exit(0);
       }
 

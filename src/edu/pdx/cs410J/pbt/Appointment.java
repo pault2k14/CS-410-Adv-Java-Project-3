@@ -13,7 +13,7 @@ import java.util.Date;
  * an appointment object.
  */
 
-public class Appointment extends AbstractAppointment {
+public class Appointment extends AbstractAppointment implements Comparable<Appointment>{
 
     private Date beginTime;
     private Date endTime;
@@ -30,7 +30,7 @@ public class Appointment extends AbstractAppointment {
 
     public Appointment(String newDescription, String newBeginTime, String newEndTime) {
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm aa");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy h:mm a");
         dateFormat.setLenient(false);
 
         // Attempt to parse the begin date and time to ensure that they
@@ -39,7 +39,7 @@ public class Appointment extends AbstractAppointment {
             this.beginTime = dateFormat.parse(newBeginTime);
         }
         catch (ParseException e) {
-            System.err.println("Begin date and time format is incorrect.");
+            System.err.println("In appointment Begin date and time format is incorrect.");
             System.exit(0);
         }
 
@@ -57,6 +57,53 @@ public class Appointment extends AbstractAppointment {
 
     }
 
+    public int compareTo(Appointment appointment) {
+
+        final int BEFORE = -1;
+        final int AFTER = 1;
+        final int EQUAL = 0;
+
+        long time = this.beginTime.getTime();
+        long moreTime = appointment.beginTime.getTime();
+
+        if(this.beginTime.before(appointment.beginTime)) {
+            return BEFORE;
+        }
+
+        if(this.beginTime.before(appointment.beginTime)) {
+            return AFTER;
+        }
+
+        if(this.beginTime.equals(appointment.beginTime)) {
+
+            if(this.endTime.before(appointment.endTime)) {
+                return BEFORE;
+            }
+
+            if(this.endTime.after(appointment.endTime)) {
+                return AFTER;
+            }
+
+            if(this.endTime.equals(appointment.endTime)) {
+
+                if(this.description.compareTo(appointment.description) == -1) {
+                    return BEFORE;
+                }
+
+                if(this.description.compareTo(appointment.description) == 1) {
+                    return AFTER;
+                }
+
+                if(this.description.equals(appointment.description)) {
+                    return EQUAL;
+                }
+
+            }
+        }
+
+        return EQUAL;
+    }
+
     @Override
     public Date getBeginTime() {
         return null;
@@ -72,13 +119,15 @@ public class Appointment extends AbstractAppointment {
      */
     @Override
     public String getBeginTimeString() {
-        DateFormat dateFormatter;
-        dateFormatter = DateFormat.getDateInstance(DateFormat.SHORT);
-        String shortBeginTime = dateFormatter.format(this.beginTime);
 
-        shortBeginTime += " " + beginTime.getHours() + ":" + beginTime.getMinutes();
+        String twelveHourBeginTime = null;
 
-        return shortBeginTime;
+        SimpleDateFormat twelveHourDateFormat = new SimpleDateFormat("MM/dd/yy h:mm a");
+        twelveHourDateFormat.setLenient(false);
+
+        twelveHourBeginTime = twelveHourDateFormat.format(this.beginTime);
+
+        return twelveHourBeginTime;
     }
 
     /**
@@ -87,13 +136,14 @@ public class Appointment extends AbstractAppointment {
      */
     @Override
     public String getEndTimeString() {
-        DateFormat dateFormatter;
-        dateFormatter = DateFormat.getDateInstance(DateFormat.SHORT);
-        String shortEndTime = dateFormatter.format(this.endTime);
+        String twelveHourEndTime = null;
 
-        shortEndTime += " " + endTime.getHours() + ":" + endTime.getMinutes();
+        SimpleDateFormat twelveHourDateFormat = new SimpleDateFormat("MM/dd/yy h:mm a");
+        twelveHourDateFormat.setLenient(false);
 
-        return shortEndTime;
+        twelveHourEndTime = twelveHourDateFormat.format(this.endTime);
+
+        return twelveHourEndTime;
     }
 
     /**

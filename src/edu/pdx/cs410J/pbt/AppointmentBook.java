@@ -2,8 +2,8 @@ package edu.pdx.cs410J.pbt;
 
 import edu.pdx.cs410J.AbstractAppointment;
 import edu.pdx.cs410J.AbstractAppointmentBook;
-import java.util.ArrayList;
-import java.util.Collection;
+
+import java.util.*;
 
 /**
  * Te AppointmentBook class is an object that represents a real world appointment book
@@ -15,7 +15,7 @@ import java.util.Collection;
 public class AppointmentBook extends AbstractAppointmentBook {
 
     private String owner;
-    private ArrayList<AbstractAppointment> appointments;
+    private ArrayList<Appointment> appointments;
 
     /**
      * Instantiates a new AppointmentBook object.
@@ -23,7 +23,7 @@ public class AppointmentBook extends AbstractAppointmentBook {
      */
     public AppointmentBook(String newOwner) {
         this.owner = newOwner;
-        this.appointments = new ArrayList<AbstractAppointment>();
+        this.appointments = new ArrayList<Appointment>();
     }
 
     /**
@@ -49,6 +49,7 @@ public class AppointmentBook extends AbstractAppointmentBook {
      *             added to the appointment book.
      */
     public void addAppointment(AbstractAppointment var1) {
-        this.appointments.add(var1);
+        this.appointments.add((Appointment) var1);
+        Collections.sort(appointments);
     }
 }

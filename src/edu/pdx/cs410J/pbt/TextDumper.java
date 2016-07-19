@@ -91,11 +91,11 @@ public class TextDumper implements edu.pdx.cs410J.AppointmentBookDumper {
             appointmentElement.appendChild(description);
 
             Element beginTime = document.createElement("beginTime");
-            beginTime.appendChild(document.createTextNode("08/1/2016 13:30"));
+            beginTime.appendChild(document.createTextNode(appointment1.getBeginTimeString()));
             appointmentElement.appendChild(beginTime);
 
             Element endTime = document.createElement("endTime");
-            endTime.appendChild(document.createTextNode("08/1/2016 15:00"));
+            endTime.appendChild(document.createTextNode(appointment1.getEndTimeString()));
             appointmentElement.appendChild(endTime);
 
             appointmentsElement.appendChild(appointmentElement);

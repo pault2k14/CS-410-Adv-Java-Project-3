@@ -15,6 +15,7 @@ import javax.xml.transform.Transformer;
 import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 /**
  * Parses text from a specified from to read from. Expects file to be in
@@ -123,6 +124,12 @@ public class TextParser implements edu.pdx.cs410J.AppointmentBookParser {
                     if(appointmentNode.getNodeType() == Node.ELEMENT_NODE) {
 
                         Element appointmentElement = (Element) appointmentNode;
+
+                        SimpleDateFormat twentyFourHourDateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm");
+                        twentyFourHourDateFormat.setLenient(false);
+
+                        SimpleDateFormat twelveHourDateFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
+                        twelveHourDateFormat.setLenient(false);
 
                         String description = appointmentElement.getElementsByTagName("description").item(0).getTextContent();
                         String beginTime = appointmentElement.getElementsByTagName("beginTime").item(0).getTextContent();
