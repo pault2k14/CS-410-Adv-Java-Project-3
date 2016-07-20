@@ -23,7 +23,7 @@ public class AppointmentBook extends AbstractAppointmentBook {
      */
     public AppointmentBook(String newOwner) {
         this.owner = newOwner;
-        this.appointments = new ArrayList<Appointment>();
+        this.appointments = new ArrayList<>();
     }
 
     /**
