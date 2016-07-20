@@ -5,15 +5,13 @@ import edu.pdx.cs410J.AbstractAppointment;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 /**
- * Appointment class allows for the creation of new appointments, and
- * the getting of the beginning time, end time, and description of
- * an appointment object.
+ * Appointment class allows for the creation of new appointments, comparison of appointments,
+ * getting of formatted strings for beginTime and endTime, and the getting of the
+ * beginTime, endTime, and description of an appointment object.
  */
-
 public class Appointment extends AbstractAppointment implements Comparable<Appointment>{
 
     private Date beginTime;
@@ -28,7 +26,6 @@ public class Appointment extends AbstractAppointment implements Comparable<Appoi
      * @param newEndTime - The ending time for the appointment as a string
      *                   in the format of M(M)/d(d)/yyyy HH:mm
      */
-
     public Appointment(String newDescription, String newBeginTime, String newEndTime) {
 
 
@@ -45,7 +42,7 @@ public class Appointment extends AbstractAppointment implements Comparable<Appoi
             System.exit(0);
         }
 
-        // Attempt to parse the begin date and time to ensure that they
+        // Attempt to parse the end date and time to ensure that they
         // are valid dates and times.
         try {
             this.endTime = shortDateFormat.parse(newEndTime);
@@ -59,15 +56,24 @@ public class Appointment extends AbstractAppointment implements Comparable<Appoi
 
     }
 
+    /**
+     * Compares whether the current Appointment is before, equal, or after
+     * the passed in appointment.
+     * @param appointment - The Appointment object to compare to the current
+     *                      Appointment object.
+     * @return Returns the equivalence between the two appointment objects
+     *         -1 if this appointment occurs before the compared appointment,
+     *         0 if this appointment is equal to the compared appointment,
+     *         1 if this appointment occurs after the compared appointment.
+     */
     public int compareTo(Appointment appointment) {
 
         final int BEFORE = -1;
         final int AFTER = 1;
         final int EQUAL = 0;
 
-        long time = this.beginTime.getTime();
-        long moreTime = appointment.beginTime.getTime();
-
+        // Check the relationship between beginTime for both
+        // appointment objects.
         if(this.beginTime.before(appointment.beginTime)) {
             return BEFORE;
         }
@@ -76,6 +82,9 @@ public class Appointment extends AbstractAppointment implements Comparable<Appoi
             return AFTER;
         }
 
+        // If beginTime is equal then we need to check
+        // the relationship between the endTime for the
+        // appointments.
         if(this.beginTime.equals(appointment.beginTime)) {
 
             if(this.endTime.before(appointment.endTime)) {
@@ -86,6 +95,9 @@ public class Appointment extends AbstractAppointment implements Comparable<Appoi
                 return AFTER;
             }
 
+            // If endTime is equal, ew now need to check
+            // the relationship of the description between
+            // the appointments.
             if(this.endTime.equals(appointment.endTime)) {
 
                 if(this.description.compareTo(appointment.description) == -1) {
@@ -106,17 +118,26 @@ public class Appointment extends AbstractAppointment implements Comparable<Appoi
         return EQUAL;
     }
 
+    /**
+     * Returns the current appointments beginTime Date object.
+     * @return endTime - the current appointment's beginTime Date object.
+     */
     @Override
     public Date getBeginTime() {
         return this.beginTime;
     }
 
+    /**
+     * Returns the current appointments endTime Date object.
+     * @return endTime - the current appointment's endTime Date object.
+     */
     @Override
     public Date getEndTime() {
         return this.endTime;
     }
     /**
-     * Returns the beginTime field of the appointment class object.
+     * Returns the a string representing the begin time of the appointment in the
+     * form of M/d/yy h:mm a
      * @return - Returns a string representing the beginning time of an appointment.
      */
     @Override
@@ -125,12 +146,14 @@ public class Appointment extends AbstractAppointment implements Comparable<Appoi
         String twelveHourBeginTime = null;
         String twelveHourBeginDate = null;
 
+        // Setup Date and time formatters.
         DateFormat shortDateFormat = DateFormat.getDateInstance(DateFormat.SHORT);
         shortDateFormat.setLenient(false);
 
         DateFormat shortTimeFormat = DateFormat.getTimeInstance(DateFormat.SHORT);
         shortTimeFormat.setLenient(false);
 
+        // Format the begin time to something a bit, prettier.
         twelveHourBeginDate = shortDateFormat.format(this.beginTime);
         twelveHourBeginTime = shortTimeFormat.format(this.beginTime);
 
@@ -138,7 +161,8 @@ public class Appointment extends AbstractAppointment implements Comparable<Appoi
     }
 
     /**
-     * Returns the endTime field of the appointment class object.
+     * Returns the a string representing the end time of the appointment in the
+     * form of M/d/yy h:mm a
      * @return - Returns a string representing the ending time of an appointment.
      */
     @Override
@@ -147,12 +171,14 @@ public class Appointment extends AbstractAppointment implements Comparable<Appoi
         String twelveHourEndTime = null;
         String twelveHourEndDate = null;
 
+        // Setup Date and time formatters.
         DateFormat shortDateFormat = DateFormat.getDateInstance(DateFormat.SHORT);
         shortDateFormat.setLenient(false);
 
         DateFormat shortTimeFormat = DateFormat.getTimeInstance(DateFormat.SHORT);
         shortTimeFormat.setLenient(false);
 
+        // Format the end time to something a bit, prettier.
         twelveHourEndDate = shortDateFormat.format(this.endTime);
         twelveHourEndTime = shortTimeFormat.format(this.endTime);
 
@@ -163,7 +189,6 @@ public class Appointment extends AbstractAppointment implements Comparable<Appoi
      * Returns the description field of the appointment class object.
      * @return - Returns a string representing the description of an appointment.
      */
-
     @Override
     public String getDescription() {
         return this.description;
